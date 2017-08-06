@@ -24,8 +24,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(new auth().tokenAuth);
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/users', users);
-app.use('/signin', signin);
+
+app.use('/signin', signin);           // 登录接口
+app.use('/system/users', users);      // 用户接口
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

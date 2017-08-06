@@ -3,16 +3,20 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nodemon server"
+    "start": "nodemon ./server.js"
   },
   "devDependencies": {
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.7",
     "express": "^4.15.3",
     "ioredis": "^3.1.2",
     "mongoose": "^4.11.5",
     "morgan": "^1.8.2",
     "mysql": "^2.14.1",
     "serve-favicon": "^2.4.3"
+  },
+  "dependencies": {
+    "uuid": "^3.1.0"
   }
 }
