@@ -132,7 +132,7 @@ module.exports = class User {
             }
         }.bind(this));
     }
-
+    /* 修改用户信息 */
     modifyUser(user, userid , callback) {
 
         var sql = 'UPDATE user SET ? WHERE userid = ?';
@@ -147,23 +147,17 @@ module.exports = class User {
             }
         }.bind(this));
     }
+    /* 修改密码 */
+    changePassword(user, id,  callback) {
+        var sql = 'UPDATE user SET ? WHERE userid = ?';
 
-    changePassword(appKey, id, name, newPassword, callback) {
-        var sql = 'UPDATE base_user SET ? WHERE id = ? AND portal_id = (SELECT id FROM app_product WHERE appKey = ?)';
-        //重新生成密码
-        var salt = this.generateSalt(5);
-        var password = this.generatePassword(name, newPassword, salt);
-        var post = {
-            password: password,
-            salt: salt
-        };
-        pool.query(sql, [post, id, appKey], function (error, results, fields) {
+        pool.query(sql, [user, id], function (error, results, fields) {
             if (error) {
                 console.error('error query: ' + error.stack);
-                callback(false);
+                callback(500, error.stack);
             }
             else {
-                callback(true);
+                callback(200,null);
             }
         }.bind(this));
     }
