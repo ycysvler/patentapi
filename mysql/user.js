@@ -21,7 +21,11 @@ module.exports = class User {
         }.bind(this));
     }
 
-    /* 获取单个用户信息 */
+    /*
+     * 通过用户ID获取用户信息
+     * userid : 用户ID
+     * callback : 回调函数（code:200 成功，500 内部错误）
+     * */
     single(userid, callback) {
         var sql = 'select * from user where userid=?';
 
@@ -39,10 +43,14 @@ module.exports = class User {
         });
     }
 
-    /* 判断用户名是否重复 */
+    /*
+     * 通过用户名获取用户信息
+     * username : 用户名
+     * callback : 回调函数（code:200 成功，500 内部错误）
+     * */
     singleByUserName(username, callback) {
         var sql = 'select * from user where username=?';
-        console.log('username', username);
+
         // 用pool查数据库
         pool.query(sql, [username], function (error, rows, fields) {
             if (error) {
@@ -57,7 +65,11 @@ module.exports = class User {
         }.bind(this));
     }
 
-    /* create new user. */
+    /*
+     * 创建用户
+     * user : 用户
+     * callback : 回调函数（code:200 成功，500 内部错误）
+     * */
     create(user, callback) {
         var sql = 'INSERT user SET ?';
 
@@ -79,21 +91,30 @@ module.exports = class User {
 
 
     }
-
+    /*
+    * 删除用户
+    * id : 用户id
+    * callback : 回调函数（code:200 成功，500 内部错误）
+    * */
     remove(id, callback) {
         var sql = 'delete from user where userid= ?';
 
         pool.query(sql, [id], function (error, results, fields) {
             if (error) {
                 console.error('error query: ' + error.stack);
-                callback(false);
+                callback(500,error.stack);
             }
             else {
-                callback(true);
+                callback(200,null);
             }
         }.bind(this));
     }
-
+    /*
+    * 登录
+    * name : 用户名
+    * password : 密码
+    * callback : 回调函数（code:200 成功，404 查不到用户，500 内部错误）
+    * */
     signin(name, password, callback) {
         console.log(name, password);
         var sql = 'SELECT userid,username,cname,icon FROM user WHERE username = ? AND password = ? limit 1';
@@ -112,45 +133,17 @@ module.exports = class User {
         }.bind(this));
     }
 
-    validatePassword(password) {
-        var genpassword = this.generatePassword(this.user.name, password, this.user.salt);
-        return (genpassword == this.user.password)
-    }
+    modifyUser(user, userid , callback) {
 
-    generatePassword(username, password, salt) {
-        var res = '';
-
-        var hash1 = crypto.createHash('sha1');
-        hash1.update(username + password);
-        res = hash1.digest('hex').toUpperCase();
-
-        var hash2 = crypto.createHash('sha1');
-        hash2.update(res + salt);
-        res = hash2.digest('hex').toUpperCase();
-
-        return res;
-    }
-
-    generateSalt(len) {
-        len = len || 6;
-        var $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var maxPos = $chars.length;
-        var pwd = '';
-        for (var i = 0; i < len; i++) {
-            pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
-        }
-        return pwd;
-    }
-
-    modifyUser(post, callback) {
-        var sql = 'UPDATE base_user SET ? WHERE id = ?';
-        pool.query(sql, [post, post.id], function (error, results, fields) {
+        var sql = 'UPDATE user SET ? WHERE userid = ?';
+        pool.query(sql, [user,userid], function (error, results, fields) {
             if (error) {
                 console.error('error query: ' + error.stack);
-                callback(false);
+                callback(500, error.stack);
             }
             else {
-                callback(true);
+                console.log(results);
+                callback(200,null);
             }
         }.bind(this));
     }

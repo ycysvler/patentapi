@@ -30,10 +30,9 @@ router.get('/username/:username', (req, res, next)=> {
 
 /* 新建用户 */
 router.post('/', (req, res, next)=> {
-
     let data = req.body;
+    // 服务器生成UUID
     data.userid = uuid.v1();
-
     user.create(data,function(code,data){
         res.send(code,data);
     });
@@ -41,16 +40,20 @@ router.post('/', (req, res, next)=> {
 
 /* 修改 user. */
 router.put('/:id', (req, res, next)=> {
-    User.findOneAndUpdate({userid:req.params.id},req.body, function(err, user){
-        res.send(user);
+    let data = req.body;
+    // 不让修改用户id，用户名
+    delete data.userid;
+    delete data.username;
+
+    user.modifyUser(data,req.params.id, function(code, err){
+        res.send(code, err);
     });
 });
 
 /* 删除用户 */
 router.delete('/:id',(req, res, next)=>{
-    User.remove({ userid:req.params.id }, function (err) {
-        if (err) return handleError(err);
-        res.send(true);
+    user.remove( req.params.id , function (code, err) {
+        res.send(code, err);
     });
 });
 
