@@ -57,4 +57,13 @@ router.delete('/:id',(req, res, next)=>{
     });
 });
 
+/* 修改密码. */
+router.put('/:id/password', (req, res, next)=> {
+    let data = {password:req.body.password};
+
+    user.changePassword(data,req.params.id, function(code, err){
+        res.send(code, err);
+    });
+});
+
 module.exports = router;
