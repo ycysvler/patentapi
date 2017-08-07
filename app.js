@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 
 let auth = require('./routes/auth');
 
+let roles = require('./routes/roles');
+let maproleusers = require('./routes/maproleusers');
+let maproleresoures = require('./routes/maproleresoures');
 let users = require('./routes/users');
 let signin = require('./routes/signin');
 
@@ -24,11 +27,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(new auth().tokenAuth);
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.use('/signin', signin);           // 登录接口
 app.use('/system/users', users);      // 用户接口
-
-
+app.use('/system/roles',roles);       // 角色借口
+app.use('/system/maproleusers',maproleusers);       // Maproleusers
+app.use('/system/maproleresoures',maproleresoures);       // maproleresoures
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
