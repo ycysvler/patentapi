@@ -88,18 +88,16 @@ module.exports = class User {
                 });
             }
         })
-
-
     }
     /*
     * 删除用户
     * id : 用户id
     * callback : 回调函数（code:200 成功，500 内部错误）
     * */
-    remove(id, callback) {
-        var sql = 'delete from user where userid= ?';
+    remove(ids, callback) {
+        var sql = 'delete from user where userid in (?)';
 
-        pool.query(sql, [id], function (error, results, fields) {
+        pool.query(sql, [ids], function (error, results, fields) {
             if (error) {
                 console.error('error query: ' + error.stack);
                 callback(500,error.stack);
