@@ -12,12 +12,25 @@ let maproleusers = require('./routes/maproleusers');
 let maproleresoures = require('./routes/maproleresoures');
 let users = require('./routes/users');
 let signin = require('./routes/signin');
+var cors = require('cors');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+var corsOptionsDelegate = function(req, callback){
+    var corsOptions;
+    corsOptions = {
+        origin: req.headers.origin,
+        optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+        credentials: true // Access-Control-Allow-Credentials CORS header. Set to true to pass the header, otherwise it is omitted.
+    };
+    callback(null, corsOptions); // callback expects two parameters: error and options
+};
+
+app.use(cors(corsOptionsDelegate));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -28,10 +41,10 @@ app.use(new auth().tokenAuth);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/signin', signin);           // 登录接口
-app.use('/system/users', users);      // 用户接口
-app.use('/system/roles',roles);       // 角色借口
-app.use('/system/maproleusers',maproleusers);       // Maproleusers
-app.use('/system/maproleresoures',maproleresoures);       // maproleresoures
+app.use('/api/system/users', users);      // 用户接口
+app.use('/api/system/roles',roles);       // 角色借口
+app.use('/api/system/maproleusers',maproleusers);       // Maproleusers
+app.use('/api/system/maproleresoures',maproleresoures);       // maproleresoures
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

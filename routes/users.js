@@ -51,8 +51,9 @@ router.put('/:id', (req, res, next)=> {
 });
 
 /* 删除用户 */
-router.delete('/:id',(req, res, next)=>{
-    user.remove( req.params.id , function (code, err) {
+router.delete('/',(req, res, next)=>{
+    console.log(req.body);
+    user.remove( req.body , function (code, err) {
         res.send(code, err);
     });
 });
