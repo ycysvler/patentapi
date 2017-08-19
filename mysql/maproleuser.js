@@ -39,18 +39,42 @@ module.exports = class Maproleuser {
 
 
     /* 新建角色列表 */
-    create(maproleuser, callback) {
+       create(maproleuser, callback) {
+        console.log(maproleuser.length, maproleuser);
+        if (maproleuser.length === 0) {
+            callback(304, '您为算了的范围可分为！');
+        } else {
+            var del = 'DELETE from map_role_user where roleid=?';
+            pool.query(del, maproleuser[0].roleid, function (error, results, fields) {
+                if (error) {
+                    console.error('error query: ' + error.stack);
+                    callback(500, error.stack);
+                }
+                else {
+                    var sql = 'INSERT map_role_user(roleid,userid) values ';
 
-        var sql = 'INSERT map_role_user SET ?';
-        pool.query(sql, maproleuser, function (error, results, fields) {
-            if (error) {
-                console.error('error query: ' + error.stack);
-                callback(500, error.stack);
-            }
-            else {
-                callback(200, maproleuser);
-            }
-        });
+                    for(var index in maproleuser){
+                        let item = maproleuser[index];
+                        sql += "('" + item.roleid + "','" + item.userid + "'),";
+                    }
+
+                    sql = sql.substring(0,sql.length -1);
+                    console.log('sql:', sql);
+
+                    pool.query(sql, maproleuser, function (error, results, fields) {
+                        if (error) {
+                            console.error('error query: ' + error.stack);
+                            callback(500, error.stack);
+                        }
+                        else {
+                            callback(200, maproleuser);
+                        }
+                    });
+                }
+            });
+
+        }
+
     }
 
 

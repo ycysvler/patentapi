@@ -10,7 +10,10 @@ module.exports = class User {
 
     /* 获取用户列表 */
     list(callback) {
-        var sql = 'select * from user';
+        var sql = 'select u.userid, u.icon, u.username, u.cname, mru.roleid , r.rolename from user u left join map_role_user mru on u.userid = mru.userid left join role r on mru.roleid = r.roleid';
+
+
+        console.log(sql);
         // 用pool查数据库
         pool.query(sql, [], function (error, results, fields) {
             if (error) {

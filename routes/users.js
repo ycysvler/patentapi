@@ -58,6 +58,7 @@ router.delete('/',(req, res, next)=>{
     });
 });
 
+
 /* 修改密码. */
 router.put('/:id/password', (req, res, next)=> {
     let data = {password:req.body.password};

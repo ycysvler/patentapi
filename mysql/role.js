@@ -80,7 +80,7 @@ module.exports = class Role {
 
     /* delete roles */
     remove(id, callback) {
-        var sql = 'delete from role where roleid= ?';
+        var sql = 'delete from role where roleid in (?)';
         pool.query(sql, [id], function (error, results, fields) {
             if (error) {
                 console.error('error query: ' + error.stack);

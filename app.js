@@ -10,6 +10,7 @@ let auth = require('./routes/auth');
 let roles = require('./routes/roles');
 let maproleusers = require('./routes/maproleusers');
 let maproleresoures = require('./routes/maproleresoures');
+let resources = require('./routes/resources');
 let users = require('./routes/users');
 let signin = require('./routes/signin');
 var cors = require('cors');
@@ -45,6 +46,8 @@ app.use('/api/system/users', users);      // 用户接口
 app.use('/api/system/roles',roles);       // 角色借口
 app.use('/api/system/maproleusers',maproleusers);       // Maproleusers
 app.use('/api/system/maproleresoures',maproleresoures);       // maproleresoures
+app.use('/api/system/resources',resources);       // resoures
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

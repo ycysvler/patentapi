@@ -7,12 +7,14 @@ var router = express.Router();
 
 let maproleresoure = new Maproleresoure();
 
-/* 查询所有角色. */
+/*
+/!* 查询所有角色. *!/
 router.get('/', (req, res, next)=> {
     maproleresoure.list((results)=> {
         res.send(results);
     });
 });
+*/
 
 /* 根据用户ID查询用户 */
 router.get('/:id', (req, res, next)=> {
