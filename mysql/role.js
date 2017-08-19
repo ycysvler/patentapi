@@ -90,6 +90,12 @@ module.exports = class Role {
                 callback(200,null);
             }
         }.bind(this));
+
+        var sql1 = "delete from map_role_user where roleid in (?)";
+        var sql2 = "delete from map_role_resoure where roleid in (?) ";
+
+        pool.query(sql1,[id],function(error,results,fields){});
+        pool.query(sql2,[id],function(error,results,fields){});
     }
 }
 
