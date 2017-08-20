@@ -13,6 +13,7 @@ let maproleresoures = require('./routes/maproleresoures');
 let resources = require('./routes/resources');
 let users = require('./routes/users');
 let signin = require('./routes/signin');
+let mentmenus = require('./routes/mentmenus');
 var cors = require('cors');
 
 var app = express();
@@ -47,6 +48,7 @@ app.use('/api/system/roles',roles);       // 角色借口
 app.use('/api/system/maproleusers',maproleusers);       // Maproleusers
 app.use('/api/system/maproleresoures',maproleresoures);       // maproleresoures
 app.use('/api/system/resources',resources);       // resoures
+app.use('/api/system/mentmenus',mentmenus);       // mentmenus
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
